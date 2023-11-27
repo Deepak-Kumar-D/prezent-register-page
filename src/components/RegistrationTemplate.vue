@@ -1,3 +1,23 @@
+<script lang="ts">
+  export default{
+    data(){
+      return {
+        countryList:[{Iso2:"",name: ""}]
+      }
+    },
+    methods:{
+      async getCountry(){
+        const res= await fetch("https://countriesnow.space/api/v0.1/countries/iso");
+        let apiData=await res.json()
+        this.countryList=apiData.data
+      }
+    },
+    mounted(){
+        this.getCountry()
+      }
+  }
+</script>
+
 <template>
   <section class="form-sec-cntr">
     <h5>Join Prezent and transform the way your team Collaborates, Creates and Presents.</h5>
@@ -20,6 +40,10 @@
         </select>
 
         <input type="number" placeholder="Phone" />
+
+        <select>
+          <option v-for="list in countryList" :key="list.Iso2" default="list.name='India'">{{ list.name }}</option>
+        </select>
 
         <input type="submit" value="Continue" />
       </form>
@@ -70,6 +94,7 @@ form input {
 
 form select {
   outline: none;
+  cursor: pointer;
 }
 
 form input[type='submit'] {
@@ -79,6 +104,7 @@ form input[type='submit'] {
   border-radius: 30px;
   border: none;
   color: #1075ab;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
